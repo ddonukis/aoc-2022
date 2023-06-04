@@ -1,7 +1,8 @@
 # Python
 [source code](main.py)
 ```
-python main.py input_data/test.txt
+python part1.py input_data/puzzle.txt
+python part2.py input_data/puzzle.txt
 ```
 # Rust
 [source code](src/main.rs)
