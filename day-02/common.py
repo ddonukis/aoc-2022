@@ -29,7 +29,7 @@ def get_outcome(opponent: Pick, me: Pick) -> Outcome:
             return Outcome.LOSS
 
 
-def score_round(opponents_pick: str, my_pick: str) -> int:
+def score_round(opponents_pick: Pick, my_pick: Pick) -> int:
     outcome = get_outcome(opponents_pick, my_pick)
     return outcome + my_pick
 
