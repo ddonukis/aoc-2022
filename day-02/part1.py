@@ -1,6 +1,23 @@
 from common import Outcome, Pick, get_input_file
 
 
+def parse_code(code: str) -> Pick:
+    match code:
+        case "A" | "X":
+            return Pick.ROCK
+        case "B" | "Y":
+            return Pick.PAPER
+        case "C" | "Z":
+            return Pick.SCISSORS
+        case _:
+            raise ValueError(f"Invalid code: {code}")
+
+
+def parse_round(line: str) -> tuple[Pick, Pick]:
+    opponent, me = line.strip().split(" ")
+    return parse_code(opponent), parse_code(me)
+
+
 def get_outcome(opponent: Pick, me: Pick) -> Outcome:
     match (me, opponent):
         case (Pick.ROCK, Pick.SCISSORS):
@@ -18,23 +35,6 @@ def get_outcome(opponent: Pick, me: Pick) -> Outcome:
 def score_round(opponents_pick: Pick, my_pick: Pick) -> int:
     outcome = get_outcome(opponents_pick, my_pick)
     return outcome + my_pick
-
-
-def parse_code(code: str) -> Pick:
-    match code:
-        case "A" | "X":
-            return Pick.ROCK
-        case "B" | "Y":
-            return Pick.PAPER
-        case "C" | "Z":
-            return Pick.SCISSORS
-        case _:
-            raise ValueError(f"Invalid code: {code}")
-
-
-def parse_round(line: str) -> tuple[Pick, Pick]:
-    opponent, me = line.strip().split(" ")
-    return parse_code(opponent), parse_code(me)
 
 
 def main():
