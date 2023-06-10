@@ -46,7 +46,6 @@ def process_line(line: str) -> int:
 
 @measure_time(MEASURED_PERF)
 def process_group(group: list[str]) -> int:
-    group.sort(key=lambda g: len(g))
     for item in group[0]:
         if (
             item in group[1] and item in group[2]
