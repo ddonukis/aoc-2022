@@ -1,4 +1,23 @@
-from common import Pick, get_input_file, get_outcome, score_round
+from common import Outcome, Pick, get_input_file
+
+
+def get_outcome(opponent: Pick, me: Pick) -> Outcome:
+    match (me, opponent):
+        case (Pick.ROCK, Pick.SCISSORS):
+            return Outcome.WIN
+        case (Pick.PAPER, Pick.ROCK):
+            return Outcome.WIN
+        case (Pick.SCISSORS, Pick.PAPER):
+            return Outcome.WIN
+        case (m, o) if m == o:
+            return Outcome.DRAW
+        case _:
+            return Outcome.LOSS
+
+
+def score_round(opponents_pick: Pick, my_pick: Pick) -> int:
+    outcome = get_outcome(opponents_pick, my_pick)
+    return outcome + my_pick
 
 
 def parse_code(code: str) -> Pick:
