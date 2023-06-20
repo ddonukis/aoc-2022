@@ -1,6 +1,6 @@
 import pytest
 
-from main import Interval, contained_intervals
+from main import Interval, contained_intervals, overlapping_intervals
 
 
 class TestInterval:
@@ -20,7 +20,7 @@ class TestInterval:
             Interval.from_string(s)
 
 
-class TestOverlappingIntervals:
+class TestContainingIntervals:
     @pytest.mark.parametrize(
         ["a", "b"],
         [
@@ -38,6 +38,31 @@ class TestOverlappingIntervals:
             (Interval(1, 10), Interval(11, 12)),
             (Interval(2, 3), Interval(3, 5)),
             (Interval(2, 8), Interval(3, 10)),
+        ],
+    )
+    def test_false(self, a, b):
+        assert contained_intervals(a, b) is False
+
+
+class TestOverlappingIntervals:
+    @pytest.mark.parametrize(
+        ["a", "b"],
+        [
+            (Interval(1, 10), Interval(1, 1)),
+            (Interval(1, 10), Interval(2, 8)),
+            (Interval(2, 8), Interval(1, 10)),
+            (Interval(2, 3), Interval(3, 5)),
+            (Interval(2, 8), Interval(3, 10)),
+        ],
+    )
+    def test_true(self, a, b):
+        assert overlapping_intervals(a, b) is True
+
+    @pytest.mark.parametrize(
+        ["a", "b"],
+        [
+            (Interval(1, 10), Interval(11, 12)),
+            (Interval(3, 4), Interval(9, 20)),
         ],
     )
     def test_false(self, a, b):
