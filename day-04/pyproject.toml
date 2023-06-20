@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "aoc-2022-d04"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+packages = [{include = "aoc_2022_d01"}]
+
+[tool.poetry.dependencies]
+python = "3.11.3"
+pytest = "^7.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
