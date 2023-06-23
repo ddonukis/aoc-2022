@@ -1,4 +1,6 @@
 from copy import deepcopy
+from pathlib import Path
+from time import perf_counter_ns
 from typing import Generator, Iterable, NamedTuple
 
 from common import get_input_file
@@ -78,12 +80,9 @@ def get_top_crates(state: State) -> str:
     return "".join(stack[-1] for stack in state)
 
 
-def main() -> None:
-    path = get_input_file()
-
+def solve_puzzle(input_path: Path) -> None:
     initial_state = []
-
-    with path.open() as f:
+    with input_path.open() as f:
         while (line := next(f).rstrip("\n")) != "":
             initial_state.append(line)
 
@@ -96,6 +95,17 @@ def main() -> None:
 
     part_2_answer = get_top_crates(simulate_commands(state, commands, multi_crate=True))
     print(f"Part 2: {part_2_answer}")
+
+
+def main() -> None:
+    path = get_input_file()
+
+    t0 = perf_counter_ns()
+    solve_puzzle(path)
+    time_taken = perf_counter_ns() - t0
+
+    s_taken = time_taken / 1_000_000.0
+    print(f"Time taken: {s_taken:.3f} s")
 
 
 if __name__ == "__main__":
