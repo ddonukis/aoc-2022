@@ -67,7 +67,7 @@ def test_parse_commands() -> None:
 
 
 @pytest.mark.parametrize(
-    ["state", "commands", "expected"],
+    ["initial_state", "commands", "expected"],
     [
         ((["A"], []), [Command(1, 0, 1)], ([], ["A"])),
         ((["A", "B"], []), [Command(2, 0, 1)], ([], ["B", "A"])),
@@ -75,7 +75,9 @@ def test_parse_commands() -> None:
     ],
 )
 def test_simulate_commands(
-    state: tuple[list[str], ...], commands: list[Command], expected: tuple[list[str], ...]
+    initial_state: tuple[list[str], ...], commands: list[Command], expected: tuple[list[str], ...]
 ) -> None:
-    simulate_commands(state, commands)
+    state = simulate_commands(initial_state, commands)
     assert expected == state
+    for a, b in zip(initial_state, state):
+        assert id(a) != id(b)

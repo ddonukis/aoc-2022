@@ -58,7 +58,8 @@ def parse_commands(lines: Iterable[str]) -> Generator[Command, None, None]:
 
 def simulate_commands(
     state: tuple[list[str], ...], commands: Iterable[Command], multi_crate: bool = False
-) -> None:
+) -> tuple[list[str], ...]:
+    state = deepcopy(state)
     for command in commands:
         moved_crates = state[command.from_index][-command.quantity :]
 
@@ -67,6 +68,7 @@ def simulate_commands(
 
         state[command.to_index].extend(moved_crates)
         del state[command.from_index][-command.quantity :]
+    return state
 
 
 def get_top_crates(state: tuple[list[str], ...]) -> str:
@@ -86,15 +88,10 @@ def main() -> None:
 
     state = parse_crates(initial_state)
 
-    part_1_state = deepcopy(state)
-    simulate_commands(part_1_state, commands)
-
-    part_1_answer = get_top_crates(part_1_state)
+    part_1_answer = get_top_crates(simulate_commands(state, commands))
     print(f"Part 1: {part_1_answer}")
 
-    simulate_commands(state, commands, multi_crate=True)
-
-    part_2_answer = get_top_crates(state)
+    part_2_answer = get_top_crates(simulate_commands(state, commands, multi_crate=True))
     print(f"Part 2: {part_2_answer}")
 
 
