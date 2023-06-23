@@ -3,6 +3,7 @@ import pytest
 from main import (
     Command,
     Crate,
+    State,
     iter_str_slices,
     parse_commands,
     parse_crates,
@@ -74,9 +75,7 @@ def test_parse_commands() -> None:
         ((["A", "B"], ["C"], []), [Command(2, 0, 2), Command(1, 1, 0)], (["C"], [], ["B", "A"])),
     ],
 )
-def test_simulate_commands(
-    initial_state: tuple[list[str], ...], commands: list[Command], expected: tuple[list[str], ...]
-) -> None:
+def test_simulate_commands(initial_state: State, commands: list[Command], expected: State) -> None:
     state = simulate_commands(initial_state, commands)
     assert expected == state
     for a, b in zip(initial_state, state):

@@ -4,9 +4,18 @@ from typing import Generator, Iterable, NamedTuple
 from common import get_input_file
 
 
+State = tuple[list[str], ...]
+
+
 class Crate(NamedTuple):
     stack_index: int
     label: str
+
+
+class Command(NamedTuple):
+    quantity: int
+    from_index: int
+    to_index: int
 
 
 def iter_str_slices(
@@ -30,9 +39,9 @@ def parse_crates_level(level: str) -> list[Crate]:
     return crates
 
 
-def parse_crates(raw_crates: list[str]) -> tuple[list[str], ...]:
+def parse_crates(raw_crates: list[str]) -> State:
     crate_labels = raw_crates.pop().split()
-    crate_stacks: tuple[list[str], ...] = tuple([] for _ in crate_labels)
+    crate_stacks: State = tuple([] for _ in crate_labels)
 
     raw_crates.reverse()
     for level in raw_crates:
@@ -40,12 +49,6 @@ def parse_crates(raw_crates: list[str]) -> tuple[list[str], ...]:
             crate_stacks[crate.stack_index].append(crate.label)
 
     return crate_stacks
-
-
-class Command(NamedTuple):
-    quantity: int
-    from_index: int
-    to_index: int
 
 
 def parse_commands(lines: Iterable[str]) -> Generator[Command, None, None]:
@@ -57,8 +60,8 @@ def parse_commands(lines: Iterable[str]) -> Generator[Command, None, None]:
 
 
 def simulate_commands(
-    state: tuple[list[str], ...], commands: Iterable[Command], multi_crate: bool = False
-) -> tuple[list[str], ...]:
+    state: State, commands: Iterable[Command], multi_crate: bool = False
+) -> State:
     state = deepcopy(state)
     for command in commands:
         moved_crates = state[command.from_index][-command.quantity :]
@@ -71,7 +74,7 @@ def simulate_commands(
     return state
 
 
-def get_top_crates(state: tuple[list[str], ...]) -> str:
+def get_top_crates(state: State) -> str:
     return "".join(stack[-1] for stack in state)
 
 
