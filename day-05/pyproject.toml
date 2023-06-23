@@ -1,0 +1,36 @@
+[tool.poetry]
+name = "aoc-2022-d05"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+
+[tool.poetry.dependencies]
+python = "3.11.3"
+pytest = "^7.0"
+
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.4.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+
+
+[tool.mypy]
+python_version = "3.11"
+follow_imports = "normal"
+strict = true
+disallow_untyped_calls = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+strict_optional = true
+warn_unreachable = true
