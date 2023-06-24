@@ -1,7 +1,7 @@
 import io
 from pathlib import Path
 from time import perf_counter_ns
-from typing import Iterable
+from typing import Generator, Iterable
 
 from common import get_input_file
 
@@ -22,16 +22,22 @@ def find_marker(message: Iterable[str], marker_length: int = 4) -> tuple[int, st
     raise ValueError("packet start not found")
 
 
-def iter_chars(file: io.TextIOWrapper) -> Iterable[str]:
+def iter_chars(file: io.TextIOWrapper) -> Generator[str, None, None]:
     while ch := file.read(1):
         yield ch
 
 
+def iter_chars_in_file(filepath: Path) -> Generator[str, None, None]:
+    with filepath.open(mode="r") as file:
+        while ch := file.read(1):
+            yield ch
+
+
 def solve_puzzle(path: Path) -> None:
-    index, marker = find_marker(iter_chars(path.open("r")))
+    index, marker = find_marker(iter_chars_in_file(path))
     print(f"Part 1: {index}")
 
-    index, marker = find_marker(iter_chars(path.open("r")), 14)
+    index, marker = find_marker(iter_chars_in_file(path), 14)
     print(f"Part 2: {index}")
 
 
